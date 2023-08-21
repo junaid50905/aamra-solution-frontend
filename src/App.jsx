@@ -5,6 +5,7 @@ import Login from "./pages/Login"
 import Navbar from "./components/Navbar"
 //css
 import './App.css'
+import UserProfile from "./pages/UserProfile"
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/" element={<Home/>}/>
         <Route path="/register" element={<Registration/>}/>
         <Route path="/login" element={<Login/>}/>
+        <Route path="/user-profile" element={<UserProfile/>}/>
       </Routes>
     </>
   )
