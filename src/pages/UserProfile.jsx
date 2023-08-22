@@ -1,19 +1,21 @@
 import { useNavigate } from "react-router-dom"
 import { getToken, removeToken } from "../localStorageData/userLocalStorageToken"
 import { useGetLoggedUserQuery, useLogoutUserMutation } from "../services/userAuthApi"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
+
+// components
 import ChangePassword from "../components/ChangePassword"
 import Profile from "../components/Profile"
+
+import { useSelector, useDispatch } from 'react-redux'
+import { removeUserInfo, setUserInfo } from "../features/user/userSlice"
+
 
 
 
 const UserProfile = () => {
-  // logged in user data
-  const [userData, setUserData] = useState({
-    email: null,
-    name: null
-  });
-  
+
+  const {email, name} = useSelector(state => state.user)
 
   // navigate
   const navigate = useNavigate()
@@ -24,31 +26,42 @@ const UserProfile = () => {
   // logout user
   const [logoutUser] = useLogoutUserMutation()
 
+  
+
   // logoutHandle
   const logoutHandle = async ()=>{
 
     const res = await logoutUser({token})
 
-    if (res.data.status === 'success'){
-      removeToken('token')
+    if (res.data.status === 'success'){     
       navigate('/login')
+      removeToken('token')
+      dispatch(removeUserInfo({
+        email: '',
+        name: ''
+      })) 
     }
   }
 
   // logged in user data
   const {data, isSuccess} = useGetLoggedUserQuery(token)
 
+
+  // dispatch
+  const dispatch = useDispatch()
+
   useEffect(() => {
 
-    if (isSuccess && data && data.user){
-      setUserData({
-        ...userData,
+    if (isSuccess && data && data.user){      
+
+      dispatch(setUserInfo({
         email: data.user.email,
-        name: data.user.name 
-      })
+        name: data.user.name
+      }))
+
     }
     
-  }, [data, isSuccess]);
+  }, [data, isSuccess, dispatch]);
 
 
  
@@ -61,8 +74,8 @@ const UserProfile = () => {
 
       {/* user information */}
       <div className="bg bg-primary p-3">
-        <h5>email: {userData.email && userData.email}</h5>
-        <h5>name: {userData.name && userData.name}</h5>
+        <h5>email: {email}</h5>
+        <h5>name: {name}</h5>
       </div>
 
       {/* password change */}
