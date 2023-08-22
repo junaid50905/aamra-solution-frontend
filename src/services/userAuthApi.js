@@ -68,9 +68,23 @@ export const userAuthApi = createApi({
                 }
             }
         }),
+        updateProfile: builder.mutation({
+            query: ({ updatedProfileInfo, token }) => {
+                return {
+                    url: 'profile',
+                    method: 'POST',
+                    body: { updatedProfileInfo },
+                    headers: {
+                        "Content-Type": 'application/json',
+                        "Accept": 'application/json',
+                        "authorization": `Bearer ${token}`
+                    }
+                }
+            }
+        }),
     }),
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useRegisterUserMutation, useLoginUserMutation, useLogoutUserMutation, useGetLoggedUserQuery, useChangePasswordMutation } = userAuthApi
+export const { useRegisterUserMutation, useLoginUserMutation, useLogoutUserMutation, useGetLoggedUserQuery, useChangePasswordMutation, useUpdateProfileMutation } = userAuthApi

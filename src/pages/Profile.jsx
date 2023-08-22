@@ -1,0 +1,116 @@
+import { useState } from "react"
+import { useUpdateProfileMutation } from "../services/userAuthApi";
+import { getToken } from "../localStorageData/userLocalStorageToken";
+
+
+const Profile = () => {
+    const [fatherName, setFatherName] = useState('');
+    const [motherName, setMotherName] = useState('');
+    const [spouseName, setSpouseName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [profilePicture, setProfilePicture] = useState('');
+    const [gender, setGender] = useState();
+
+
+    // updateProfile
+    const [updateProfile] = useUpdateProfileMutation()
+
+    // getToken
+    const token = getToken()
+
+    // submitHandler
+    const submitHandler = async (e) => {
+        e.preventDefault()
+        
+        const updatedProfileInfo = {
+            father_name: fatherName,
+            mother_name: motherName,
+            spouse_name: spouseName,
+            phone: phone,
+            profile_picture: profilePicture,
+            gender: gender,
+
+        };
+        const res = await updateProfile({ updatedProfileInfo, token });
+        console.log(res);
+    
+        
+
+    }
+
+
+    return (
+        <div className="bg-success w-75 py-2 px-3 my-2">
+            <h2>Profile</h2>
+
+            <form onSubmit={submitHandler}>
+                <div className="row">
+
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">Father Name</label>
+                            <input type="text" className="form-control" name="father_name" value={fatherName} onChange={e => setFatherName(e.target.value)} />
+                        </div>
+                    </div>
+
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">Mother Name</label>
+                            <input type="text" className="form-control" name="mother_name" value={motherName} onChange={e => setMotherName(e.target.value)} />
+                        </div>
+                    </div>
+
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">Spouse Name</label>
+                            <input type="text" className="form-control" name="spouse_name" value={spouseName} onChange={e => setSpouseName(e.target.value)} />
+                        </div>
+                    </div>
+
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">Phone</label>
+                            <input type="text" className="form-control" name="phone" value={phone} onChange={e => setPhone(e.target.value)} />
+                        </div>
+                    </div>
+
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">Profile picture</label>
+                            <input type="file" className="form-control" name="profile_picture" value={profilePicture} onChange={e => setProfilePicture(e.target.value)} />
+                        </div>
+                    </div>
+
+                    <div className="col-md-4">
+                        <div className="mt-3">
+                            <span>Gender</span>
+                            <div>
+                                <input type="radio" name="gender" value="male" onChange={e => setGender(e.target.value)} />
+                                <label>Male</label>
+                            </div>
+                            <div>
+                                <input type="radio" name="gender" value="female" onChange={e => setGender(e.target.value)} />
+                                <label>Female</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" className="btn btn-dark w-100">Update profile</button>
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+            </form>
+        </div>
+    )
+}
+
+export default Profile
