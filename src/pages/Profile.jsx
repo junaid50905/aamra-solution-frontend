@@ -4,6 +4,7 @@ import { getToken } from "../localStorageData/userLocalStorageToken";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setProfile } from "../features/user/userSlice";
+import ProfileData from "../components/ProfileData";
 
 const Profile = () => {
     const [fatherName, setFatherName] = useState('');
@@ -63,12 +64,7 @@ const Profile = () => {
 
     }, [data, isSuccess, dispatch]);
 
-    const {father_name, mother_name, spouse_name, profile_picture} = useSelector(state => state.user.profile)
     
-    
-
-    console.log(data);
-
 
 
 
@@ -131,6 +127,10 @@ const Profile = () => {
                     <button type="submit" className="btn btn-dark w-100">Update profile</button>
                 </div>
             </form>
+
+            <ProfileData/>
+
+            
         </div>
     )
 }

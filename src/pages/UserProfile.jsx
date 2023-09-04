@@ -10,8 +10,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { removeUserInfo, setUserInfo } from "../features/user/userSlice"
 
 
-
-
 const UserProfile = () => {
 
   const {email, name} = useSelector(state => state.user)
@@ -62,6 +60,8 @@ const UserProfile = () => {
     
   }, [data, isSuccess, dispatch]);
 
+  
+
 
  
 
@@ -81,7 +81,11 @@ const UserProfile = () => {
       {/* password change */}
       <div className="d-flex gap-2">
         <ChangePassword/>
+        
       </div>
+
+
+
     </div>
   )
 }
