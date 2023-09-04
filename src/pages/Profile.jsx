@@ -1,7 +1,9 @@
-import { useState } from "react"
-import { useUpdateProfileMutation } from "../services/userAuthApi";
+import { useEffect, useState } from "react"
+import { useGetLoggedUserProfileQuery, useUpdateProfileMutation } from "../services/userAuthApi";
 import { getToken } from "../localStorageData/userLocalStorageToken";
-
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setProfile } from "../features/user/userSlice";
 
 const Profile = () => {
     const [fatherName, setFatherName] = useState('');
@@ -11,6 +13,8 @@ const Profile = () => {
     const [profilePicture, setProfilePicture] = useState('');
     const [gender, setGender] = useState();
 
+    // navigate
+    const navigate = useNavigate()
 
     // updateProfile
     const [updateProfile] = useUpdateProfileMutation()
@@ -30,13 +34,43 @@ const Profile = () => {
             profile_picture: profilePicture,
             gender: gender,
 
+
         };
-        const res = await updateProfile({ updatedProfileInfo, token });
-        console.log(res);
+        await updateProfile({ updatedProfileInfo, token });
+
+        navigate('/user-profile')
     
         
-
     }
+
+
+    // get user profile data
+    const { data, isSuccess } = useGetLoggedUserProfileQuery(token)
+
+    // dispatch
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+
+        if (isSuccess && data && data.profile) {
+
+            dispatch(setProfile(
+                data.profile
+            ))
+            console.log(data.profile);
+
+        }
+
+    }, [data, isSuccess, dispatch]);
+
+    const {father_name, mother_name, spouse_name, profile_picture} = useSelector(state => state.user.profile)
+    
+    
+
+    console.log(data);
+
+
+
 
 
     return (
@@ -94,20 +128,8 @@ const Profile = () => {
                             </div>
                         </div>
                     </div>
-
                     <button type="submit" className="btn btn-dark w-100">Update profile</button>
-
-
-
                 </div>
-
-
-
-
-
-
-
-
             </form>
         </div>
     )

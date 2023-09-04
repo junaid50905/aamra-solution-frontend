@@ -73,10 +73,21 @@ export const userAuthApi = createApi({
                 return {
                     url: 'profile',
                     method: 'POST',
-                    body: { updatedProfileInfo },
+                    body: updatedProfileInfo,
                     headers: {
                         "Content-Type": 'application/json',
                         "Accept": 'application/json',
+                        "authorization": `Bearer ${token}`
+                    }
+                }
+            }
+        }),
+        getLoggedUserProfile: builder.query({
+            query: (token) => {
+                return {
+                    url: 'profile-data',
+                    method: 'GET',
+                    headers: {
                         "authorization": `Bearer ${token}`
                     }
                 }
@@ -87,4 +98,4 @@ export const userAuthApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useRegisterUserMutation, useLoginUserMutation, useLogoutUserMutation, useGetLoggedUserQuery, useChangePasswordMutation, useUpdateProfileMutation } = userAuthApi
+export const { useRegisterUserMutation, useLoginUserMutation, useLogoutUserMutation, useGetLoggedUserQuery, useChangePasswordMutation, useUpdateProfileMutation, useGetLoggedUserProfileQuery } = userAuthApi
