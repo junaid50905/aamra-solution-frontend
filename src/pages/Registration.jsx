@@ -33,6 +33,7 @@ const Registration = () => {
             setToken(res.data.token)
             // navigate user-profile page after register
             navigate('/user-profile')
+            window.location.reload()
         } else if (res.error && res.error.status === 422) {
             setError(res.error.data.message);
         }
@@ -41,6 +42,8 @@ const Registration = () => {
         setEmail('')
         setName('')
         setPassword('')
+
+        
 
 
     }

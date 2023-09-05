@@ -38,6 +38,8 @@ const UserProfile = () => {
         name: ''
       })) 
     }
+
+    window.location.reload()
   }
 
   // logged in user data

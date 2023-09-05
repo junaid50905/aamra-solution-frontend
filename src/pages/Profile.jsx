@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useGetLoggedUserProfileQuery, useUpdateProfileMutation } from "../services/userAuthApi";
 import { getToken } from "../localStorageData/userLocalStorageToken";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setProfile } from "../features/user/userSlice";
 import ProfileData from "../components/ProfileData";
 
@@ -39,7 +39,7 @@ const Profile = () => {
         };
         await updateProfile({ updatedProfileInfo, token });
 
-        navigate('/user-profile')
+        window.location.reload()
     
         
     }
@@ -58,7 +58,6 @@ const Profile = () => {
             dispatch(setProfile(
                 data.profile
             ))
-            console.log(data.profile);
 
         }
 

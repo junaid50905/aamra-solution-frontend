@@ -38,6 +38,8 @@ const Login = () => {
       setError(res.error.data.message)
     }
 
+    window.location.reload()
+
   }
   
 
